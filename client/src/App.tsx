@@ -1,7 +1,15 @@
-import React from "react";
 import axios from "axios";
-import logo from "./logo.svg";
 import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import "bulma/css/bulma.min.css";
+import NavBar from "./components/shared/NavBar";
+import HomePage from "./components/pages/HomePage";
+import ReptilesPage from "./components/pages/ReptilesPage";
 
 function App() {
   const loc = window.location;
@@ -11,20 +19,14 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar />
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/guides/reptiles" element={<ReptilesPage />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
