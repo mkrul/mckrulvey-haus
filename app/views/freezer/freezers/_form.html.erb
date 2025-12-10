@@ -1,0 +1,22 @@
+<%= form_with model: freezer, url: freezer.persisted? ? freezer_freezer_path(freezer) : freezer_freezers_path, class: "space-y-6" do |form| %>
+  <% if freezer.errors.any? %>
+    <div class="bg-red-900/50 border border-red-700 rounded-xl p-4">
+      <h3 class="font-medium text-red-200 mb-2">Please fix the following:</h3>
+      <ul class="list-disc list-inside text-sm text-red-300 space-y-1">
+        <% freezer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input-field", placeholder: "e.g., Inside Freezer" %>
+  </div>
+
+  <div class="flex gap-3 pt-4">
+    <%= form.submit freezer.persisted? ? "Update Freezer" : "Create Freezer", class: "btn btn-primary flex-1" %>
+    <%= link_to "Cancel", freezer_freezers_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

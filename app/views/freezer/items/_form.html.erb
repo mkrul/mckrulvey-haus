@@ -1,0 +1,81 @@
+<%= form_with model: freezer_item, url: freezer_item.persisted? ? freezer_item_path(freezer_item) : freezer_items_path, class: "space-y-6" do |form| %>
+  <% if freezer_item.errors.any? %>
+    <div class="bg-red-900/50 border border-red-700 rounded-xl p-4">
+      <h3 class="font-medium text-red-200 mb-2">Please fix the following:</h3>
+      <ul class="list-disc list-inside text-sm text-red-300 space-y-1">
+        <% freezer_item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :freezer_id, "Freezer", class: "label" %>
+    <%= form.collection_select :freezer_id, freezers, :id, :name, { prompt: "Select a freezer" }, { class: "input-field", required: true } %>
+  </div>
+
+  <div>
+    <%= form.label :category, class: "label" %>
+    <%= form.text_field :category, list: "categories-list", class: "input-field", placeholder: "e.g., beef, chicken", required: true %>
+    <datalist id="categories-list">
+      <% categories.each do |category| %>
+        <option value="<%= category %>">
+      <% end %>
+    </datalist>
+  </div>
+
+  <div>
+    <%= form.label :name, "Item Name", class: "label" %>
+    <%= form.text_field :name, list: "item-names-list", class: "input-field", placeholder: "e.g., sirloin steak, flank steak", required: true %>
+    <datalist id="item-names-list">
+      <% item_names.each do |name| %>
+        <option value="<%= name %>">
+      <% end %>
+    </datalist>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <%= form.label :weight_lbs, "Weight (lbs)", class: "label" %>
+      <%= form.number_field :weight_lbs, class: "input-field", placeholder: "0", min: 0, step: 1 %>
+    </div>
+    <div>
+      <%= form.label :weight_oz, "Weight (oz)", class: "label" %>
+      <%= form.number_field :weight_oz, class: "input-field", placeholder: "0", min: 0, step: 1 %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :packaged_date, "Packaged Date", class: "label" %>
+    <%= form.date_field :packaged_date, class: "input-field" %>
+  </div>
+
+  <div>
+    <%= form.label :expiration_date, "Expiration Date", class: "label" %>
+    <%= form.date_field :expiration_date, class: "input-field" %>
+  </div>
+
+  <% unless freezer_item.persisted? %>
+    <div>
+      <%= label_tag :quantity, "Quantity", class: "label" %>
+      <%= number_field_tag :quantity, params[:quantity] || (defined?(@source_item) && @source_item ? 1 : 1), class: "input-field", placeholder: "1", min: 1, step: 1 %>
+      <p class="mt-2 text-sm text-slate-400">
+        <% if defined?(@source_item) && @source_item %>
+          How many copies would you like to create?
+        <% else %>
+          Create multiple copies of this item (leave as 1 for a single item)
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+
+  <div class="flex gap-3 pt-4">
+    <% if defined?(@source_item) && @source_item %>
+      <%= form.submit "Create Duplicates", class: "btn btn-primary flex-1" %>
+    <% else %>
+      <%= form.submit freezer_item.persisted? ? "Update Item" : "Create Item", class: "btn btn-primary flex-1" %>
+    <% end %>
+    <%= link_to "Cancel", freezer_items_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

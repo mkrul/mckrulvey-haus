@@ -4,40 +4,75 @@
     <p class="text-slate-400">Manage your frozen food inventory</p>
   </div>
 
-  <div class="card mb-6">
-    <div class="card-body text-center py-12">
-      <div class="w-16 h-16 bg-sky-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-        <svg class="w-10 h-10 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0v10l-8 4m8-14l-8 4m0 0L4 7m8 4v10M4 7v10l8 4"></path>
-        </svg>
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="text-sm text-slate-400 mb-1">Total Items</div>
+        <div class="text-2xl font-bold text-slate-100"><%= @total_items %></div>
       </div>
-      <h2 class="text-lg font-semibold text-slate-100 mb-2">Coming Soon</h2>
-      <p class="text-slate-400 max-w-sm mx-auto">
-        Track what's in your freezer, manage portions, and plan meals.
-      </p>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="text-sm text-slate-400 mb-1">Expiring Soon</div>
+        <div class="text-2xl font-bold text-red-400"><%= @expiring_soon %></div>
+      </div>
     </div>
   </div>
 
-  <div class="space-y-3">
-    <h3 class="section-title">Planned Features</h3>
-    <div class="card">
-      <div class="list-item">
-        <span class="text-slate-300">Freezer inventory</span>
-        <span class="badge badge-warning">Planned</span>
+  <div class="space-y-4 mb-6">
+    <%= link_to freezer_items_path, class: "card block" do %>
+      <div class="card-body flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="font-medium text-slate-100">View Inventory</div>
+            <div class="text-sm text-slate-400">Browse all freezer items</div>
+          </div>
+        </div>
+        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
       </div>
-      <div class="list-item">
-        <span class="text-slate-300">Multiple freezer support</span>
-        <span class="badge badge-warning">Planned</span>
+    <% end %>
+
+    <%= link_to freezer_freezers_path, class: "card block" do %>
+      <div class="card-body flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-sky-500/20 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v10l-8 4m8-14l-8 4m0 0L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="font-medium text-slate-100">Manage Freezers</div>
+            <div class="text-sm text-slate-400">Add or edit freezers</div>
+          </div>
+        </div>
+        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
       </div>
-      <div class="list-item">
-        <span class="text-slate-300">Expiration tracking</span>
-        <span class="badge badge-warning">Planned</span>
-      </div>
-      <div class="list-item">
-        <span class="text-slate-300">Portion management</span>
-        <span class="badge badge-warning">Planned</span>
+    <% end %>
+  </div>
+
+  <% if @freezers.any? %>
+    <div class="space-y-3">
+      <h3 class="section-title">Freezers</h3>
+      <div class="card">
+        <% @freezers.each do |freezer| %>
+          <div class="list-item">
+            <div class="flex-1">
+              <div class="font-medium text-slate-100"><%= freezer.name %></div>
+              <div class="text-sm text-slate-400"><%= pluralize(freezer.freezer_items.count, "item") %></div>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
 

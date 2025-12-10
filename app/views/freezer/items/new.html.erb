@@ -1,0 +1,13 @@
+<div class="px-4 py-6">
+  <div class="mb-6">
+    <% if defined?(@source_item) && @source_item %>
+      <h1 class="text-2xl font-bold text-slate-100 mb-1">Duplicate Item</h1>
+      <p class="text-slate-400">Create copies of "<%= @source_item.name %>"</p>
+    <% else %>
+      <h1 class="text-2xl font-bold text-slate-100 mb-1">Add Item</h1>
+      <p class="text-slate-400">Add a new item to your freezer</p>
+    <% end %>
+  </div>
+
+  <%= render "form", freezer_item: @freezer_item, freezers: @freezers, categories: @categories, item_names: @item_names %>
+</div>

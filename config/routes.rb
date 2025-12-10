@@ -20,6 +20,12 @@ Rails.application.routes.draw do
 
   namespace :freezer do
     root "dashboard#index", as: :root
+    resources :freezers
+    resources :items do
+      member do
+        get :duplicate
+      end
+    end
   end
   get "freezer", to: redirect("/freezer"), as: :freezer
 

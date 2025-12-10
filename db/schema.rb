@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_10_103117) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_10_104001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "freezer_items", force: :cascade do |t|
+    t.bigint "freezer_id", null: false
+    t.string "name", null: false
+    t.string "category", null: false
+    t.integer "weight_lbs"
+    t.integer "weight_oz"
+    t.date "packaged_date"
+    t.date "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_freezer_items_on_category"
+    t.index ["expiration_date"], name: "index_freezer_items_on_expiration_date"
+    t.index ["freezer_id"], name: "index_freezer_items_on_freezer_id"
+    t.index ["name"], name: "index_freezer_items_on_name"
+  end
+
+  create_table "freezers", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_freezers_on_name", unique: true
+  end
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "scheduled_task_id", null: false
@@ -48,6 +71,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_103117) do
     t.index ["due_at"], name: "index_scheduled_tasks_on_due_at"
   end
 
+  add_foreign_key "freezer_items", "freezers"
   add_foreign_key "notifications", "phone_numbers"
   add_foreign_key "notifications", "scheduled_tasks"
 end
