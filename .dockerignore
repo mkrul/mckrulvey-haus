@@ -1,0 +1,14 @@
+.git
+.gitignore
+log/*
+tmp/*
+storage/*
+.bundle
+vendor/bundle
+node_modules
+coverage
+.env*
+!.env.example
+*.log
+.DS_Store
+cursor/

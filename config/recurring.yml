@@ -1,0 +1,10 @@
+production:
+  schedule_notifications:
+    class: ScheduleNotificationsJob
+    schedule: every 5 minutes
+
+development:
+  schedule_notifications:
+    class: ScheduleNotificationsJob
+    schedule: every 5 minutes
+

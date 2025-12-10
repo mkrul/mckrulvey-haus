@@ -1,0 +1,51 @@
+<%= form_with model: scheduled_task, class: "space-y-6" do |form| %>
+  <% if scheduled_task.errors.any? %>
+    <div class="bg-red-900/50 border border-red-700 rounded-xl p-4">
+      <h3 class="font-medium text-red-200 mb-2">Please fix the following:</h3>
+      <ul class="list-disc list-inside text-sm text-red-300 space-y-1">
+        <% scheduled_task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, class: "label" %>
+    <%= form.text_field :title, class: "input-field", placeholder: "e.g., Feed the snake" %>
+  </div>
+
+  <div>
+    <%= form.label :description, class: "label" %>
+    <%= form.text_area :description, class: "input-field min-h-[100px]", placeholder: "Optional notes..." %>
+  </div>
+
+  <div>
+    <%= form.label :due_at, "Due Date & Time", class: "label" %>
+    <%= form.datetime_local_field :due_at, class: "input-field" %>
+  </div>
+
+  <div>
+    <%= form.label :recurrence, class: "label" %>
+    <%= form.select :recurrence, ScheduledTask::RECURRENCE_OPTIONS.map { |r| [r.capitalize, r] }, {}, class: "input-field" %>
+  </div>
+
+  <div>
+    <%= form.label :notify_minutes_before, "Notify Before", class: "label" %>
+    <%= form.select :notify_minutes_before, [
+      ["At time of task", 0],
+      ["5 minutes before", 5],
+      ["15 minutes before", 15],
+      ["30 minutes before", 30],
+      ["1 hour before", 60],
+      ["2 hours before", 120],
+      ["1 day before", 1440]
+    ], {}, class: "input-field" %>
+  </div>
+
+  <div class="flex gap-3 pt-4">
+    <%= form.submit scheduled_task.persisted? ? "Update Task" : "Create Task", class: "btn btn-primary flex-1" %>
+    <%= link_to "Cancel", scheduled_tasks_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
+
